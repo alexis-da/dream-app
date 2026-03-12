@@ -14,7 +14,8 @@ export default function DreamList() {
   const fetchDreams = useCallback(async () => {
     try {
       const data = await AsyncStorage.getItem("dreamFormDataArray");
-      const dreamFormDataArray = data ? JSON.parse(data) : [];
+      const parsed = data ? JSON.parse(data) : [];
+      const dreamFormDataArray = Array.isArray(parsed) ? parsed : [];
       setDreams(dreamFormDataArray);
     } catch (error) {
       console.error("Erreur lors de la récupération des données:", error);
@@ -39,57 +40,67 @@ export default function DreamList() {
       ) : (
         <>
           <Text style={styles.title}>Liste des Rêves :</Text>
-          {dreams.map((dream, index) => (
-            <ScrollView key={index} style={styles.dreamContainer}>
-              <Text style={styles.dreamText}>
-                {dream.dreamText} -{" "}
-                {dream.isLucidDream ? "Lucide" : "Non Lucide"} -{" "}
-                {dream.dreamType}
-                <br />
-                Hashtags:
-                <br />
-                {dream.hashtags.map((hashtag, id) => (
-                  <Text key={id}>{hashtag.label},</Text>
-                ))}
-                {"\n"}
-                Date: {dream.dateTime?.date || "N/A"} - Heure:{" "}
-                {dream.dateTime?.time || "N/A"}
-                <br />
-                <Text>Emotion: {dream.emotionState}</Text>
-                <br />
-                <Text>
-                  Personne:{" "}
-                  {dream.peoples.map((person) => person.name).join(", ")}
+          {dreams.length === 0 ? (
+            <Text style={styles.emptyText}>
+              Aucun rêve enregistré pour le moment.
+            </Text>
+          ) : (
+            dreams.map((dream, index) => (
+              <ScrollView key={index} style={styles.dreamContainer}>
+                <Text style={styles.dreamText}>
+                  {dream.dreamText} -{" "}
+                  {dream.isLucidDream ? "Lucide" : "Non Lucide"} -{" "}
+                  {dream.dreamType}
+                  <br />
+                  Hashtags:
+                  <br />
+                  {dream.hashtags.map((hashtag, id) => (
+                    <Text key={id}>{hashtag.label},</Text>
+                  ))}
+                  {"\n"}
+                  Date: {dream.dateTime?.date || "N/A"} - Heure:{" "}
+                  {dream.dateTime?.time || "N/A"}
+                  <br />
+                  <Text>Emotion: {dream.emotionState}</Text>
+                  <br />
+                  <Text>
+                    Personne:{" "}
+                    {dream.peoples.map((person) => person.name).join(", ")}
+                  </Text>
+                  <br />
+                  <Text>Lieu: {dream.place}</Text>
+                  <br />
+                  <Text>
+                    Intensité émotionnelle: {dream.emotionnalIntensity}
+                  </Text>
+                  <br />
+                  <Text>Clarté du rêve: {dream.dreamClarity}</Text>
+                  <br />
+                  <Text>Qualité du sommeil: {dream.sleepQuality}</Text>
+                  <br />
+                  <Text>
+                    Signification personnelle: {dream.presonalMeaning}
+                  </Text>
+                  <br />
                 </Text>
-                <br />
-                <Text>Lieu: {dream.place}</Text>
-                <br />
-                <Text>Intensité émotionnelle: {dream.emotionnalIntensity}</Text>
-                <br />
-                <Text>Clarté du rêve: {dream.dreamClarity}</Text>
-                <br />
-                <Text>Qualité du sommeil: {dream.sleepQuality}</Text>
-                <br />
-                <Text>Signification personnelle: {dream.presonalMeaning}</Text>
-                <br />
-              </Text>
-              <View style={styles.buttonContainer}>
-                <Button
-                  mode="outlined"
-                  onPress={() => setEditingDreamId(dream.id)}
-                  style={styles.editButton}
-                >
-                  Modifier
-                </Button>
-                <DeleteDream
-                  dreamId={dream.id}
-                  onDelete={() =>
-                    setDreams(dreams.filter((d) => d.id !== dream.id))
-                  }
-                />
-              </View>
-            </ScrollView>
-          ))}
+                <View style={styles.buttonContainer}>
+                  <Button
+                    mode="outlined"
+                    onPress={() => setEditingDreamId(dream.id)}
+                    style={styles.editButton}
+                  >
+                    Modifier
+                  </Button>
+                  <DeleteDream
+                    dreamId={dream.id}
+                    onDelete={() =>
+                      setDreams(dreams.filter((d) => d.id !== dream.id))
+                    }
+                  />
+                </View>
+              </ScrollView>
+            ))
+          )}
         </>
       )}
     </ScrollView>
@@ -131,5 +142,12 @@ const styles = StyleSheet.create({
   },
   editButton: {
     flex: 1,
+  },
+  emptyText: {
+    marginTop: DreamTheme.spacing.xl,
+    textAlign: "center",
+    color: DreamTheme.colors.textMuted,
+    fontSize: 15,
+    fontStyle: "italic",
   },
 });
