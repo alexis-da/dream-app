@@ -1,3 +1,4 @@
+import { DreamTheme } from "@/constants/DreamTheme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
 import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -67,16 +68,14 @@ export default function DreamSearch() {
             <Text style={styles.resultSubText}>
               Personnes: {dream.peoples.map((p) => p.name).join(", ")}
             </Text>
-              <Text style={styles.resultSubText}>
+            <Text style={styles.resultSubText}>
               Date: {dream.dateTime?.date || "N/A"} - Heure:{" "}
               {dream.dateTime?.time || "N/A"}
             </Text>
-             <Text style={styles.resultSubText}>
+            <Text style={styles.resultSubText}>
               Emotion: {dream.emotionState}
             </Text>
-            <Text style={styles.resultSubText}>
-              Lieu: {dream.place}
-            </Text>
+            <Text style={styles.resultSubText}>Lieu: {dream.place}</Text>
             <Text style={styles.resultSubText}>
               Intensité émotionnelle: {dream.emotionnalIntensity}
             </Text>
@@ -99,30 +98,35 @@ export default function DreamSearch() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
+    backgroundColor: DreamTheme.colors.background,
+    padding: DreamTheme.spacing.lg,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
+    fontSize: 22,
+    fontWeight: "900",
+    marginBottom: DreamTheme.spacing.lg,
+    color: DreamTheme.colors.gold,
+    alignSelf: "flex-start",
+    letterSpacing: 0.5,
   },
   searchContainer: {
     width: "100%",
-    marginBottom: 20,
+    marginBottom: DreamTheme.spacing.lg,
+    backgroundColor: DreamTheme.colors.card,
+    borderRadius: DreamTheme.borderRadius.lg,
+    padding: DreamTheme.spacing.lg,
+    borderWidth: 1,
+    borderColor: DreamTheme.colors.cardBorder,
+    ...DreamTheme.shadow,
   },
   label: {
-    fontSize: 16,
-
-    marginBottom: 10,
+    fontSize: 14,
+    fontWeight: "700",
+    marginBottom: DreamTheme.spacing.sm,
+    color: DreamTheme.colors.accent,
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
+    marginBottom: DreamTheme.spacing.md,
   },
   button: {
     width: "100%",
@@ -132,14 +136,22 @@ const styles = StyleSheet.create({
   },
   resultItem: {
     borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 12,
+    borderColor: DreamTheme.colors.cardBorder,
+    borderRadius: DreamTheme.borderRadius.lg,
+    padding: DreamTheme.spacing.lg,
+    marginBottom: DreamTheme.spacing.md,
+    backgroundColor: DreamTheme.colors.card,
+    ...DreamTheme.shadow,
   },
   resultText: {
     fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 4,
+    fontWeight: "700",
+    marginBottom: DreamTheme.spacing.sm,
+    color: DreamTheme.colors.accent,
+  },
+  resultSubText: {
+    fontSize: 13,
+    color: DreamTheme.colors.textSecondary,
+    marginBottom: 2,
   },
 });

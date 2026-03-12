@@ -1,3 +1,4 @@
+import { DreamTheme } from "@/constants/DreamTheme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
@@ -300,7 +301,7 @@ export default function DreamForm() {
         type="star"
         ratingColor="#3498db"
         ratingBackgroundColor="#c8c7c8"
-        ratingCount={10}
+        ratingCount={5}
         startingValue={emotionnalIntensity}
         onFinishRating={(rating) => setEmotionnalIntensity(rating)}
       />
@@ -312,7 +313,7 @@ export default function DreamForm() {
         type="star"
         ratingColor="#3498db"
         ratingBackgroundColor="#c8c7c8"
-        ratingCount={10}
+        ratingCount={5}
         startingValue={dreamClarity}
         onFinishRating={(rating) => setDreamClarity(rating)}
       />
@@ -328,7 +329,7 @@ export default function DreamForm() {
         startingValue={sleepQuality}
         onFinishRating={(rating) => setSleepQuality(rating)}
       />
-  
+
       <Divider style={styles.divider} />
       <Text style={styles.label}>Signification personnelle</Text>
       <TextInput
@@ -381,50 +382,62 @@ export default function DreamForm() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    backgroundColor: DreamTheme.colors.background,
+    padding: DreamTheme.spacing.lg,
   },
   input: {
-    marginBottom: 16,
+    marginBottom: DreamTheme.spacing.lg,
   },
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: DreamTheme.spacing.lg,
+    backgroundColor: DreamTheme.colors.card,
+    borderRadius: DreamTheme.borderRadius.lg,
+    paddingHorizontal: DreamTheme.spacing.md,
   },
   button: {
-    marginTop: 8,
+    marginTop: DreamTheme.spacing.md,
   },
   divider: {
-    marginVertical: 20,
+    marginVertical: DreamTheme.spacing.xl,
+    backgroundColor: DreamTheme.colors.cardBorder,
   },
   label: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 12,
-    marginLeft: 12,
+    fontSize: 15,
+    fontWeight: "700",
+    marginBottom: DreamTheme.spacing.md,
+    marginLeft: DreamTheme.spacing.md,
+    color: DreamTheme.colors.accent,
   },
   peopleListContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    marginBottom: 12,
-    gap: 8,
+    marginBottom: DreamTheme.spacing.md,
+    gap: DreamTheme.spacing.sm,
   },
   personTag: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#e3f2fd",
-    borderRadius: 16,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    marginRight: 4,
+    backgroundColor: DreamTheme.colors.primaryLight,
+    borderRadius: DreamTheme.borderRadius.round,
+    paddingHorizontal: DreamTheme.spacing.md,
+    paddingVertical: DreamTheme.spacing.sm,
+    borderWidth: 1,
+    borderColor: DreamTheme.colors.cardBorder,
   },
   personName: {
-    marginRight: 8,
+    marginRight: DreamTheme.spacing.sm,
     fontSize: 14,
+    color: DreamTheme.colors.accent,
+    fontWeight: "600",
   },
   removeButton: {
     margin: 0,
     padding: 0,
     minWidth: "auto",
   },
+  raiting: {
+    backgroundColor: DreamTheme.colors.background,
+  }
 });

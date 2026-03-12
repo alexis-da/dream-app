@@ -1,3 +1,4 @@
+import { DreamTheme } from "@/constants/DreamTheme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useCallback, useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
@@ -98,27 +99,35 @@ export default function DreamList() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: DreamTheme.colors.background,
+    paddingHorizontal: DreamTheme.spacing.lg,
+    paddingTop: DreamTheme.spacing.lg,
   },
   title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 8,
+    fontSize: 22,
+    fontWeight: "900",
+    marginBottom: DreamTheme.spacing.lg,
+    color: DreamTheme.colors.gold,
+    letterSpacing: 0.5,
   },
   dreamText: {
-    fontSize: 16,
-    marginBottom: 4,
+    fontSize: 15,
+    marginBottom: DreamTheme.spacing.sm,
+    color: DreamTheme.colors.textPrimary,
   },
   dreamContainer: {
     borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 12,
+    borderColor: DreamTheme.colors.cardBorder,
+    borderRadius: DreamTheme.borderRadius.lg,
+    padding: DreamTheme.spacing.lg,
+    marginBottom: DreamTheme.spacing.lg,
+    backgroundColor: DreamTheme.colors.card,
+    ...DreamTheme.shadow,
   },
   buttonContainer: {
     flexDirection: "row",
-    gap: 8,
-    marginTop: 12,
+    gap: DreamTheme.spacing.sm,
+    marginTop: DreamTheme.spacing.md,
   },
   editButton: {
     flex: 1,
