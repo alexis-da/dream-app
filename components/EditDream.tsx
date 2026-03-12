@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
 import {
   Button,
@@ -14,29 +14,7 @@ import uuid from "react-native-uuid";
 
 const { width } = Dimensions.get("window");
 
-interface Dream {
-  id: string;
-  dreamText: string;
-  isLucidDream: boolean;
-  dreamType: string;
-  hashtags: Array<{ id: string; label: string }>;
-  dateTime: { date: string; time: string };
-  emotionState: string;
-  peoples: Array<{ id: string; name: string }>;
-  place: string;
-  emotionnalIntensity: number;
-  dreamClarity: number;
-  sleepQuality: number;
-  presonalMeaning: string;
-}
-
-interface EditDreamProps {
-  dreamId: string;
-  onSave?: () => void;
-  onCancel?: () => void;
-}
-
-const findHashtagIdByLabel = async (hashtag: string) => {
+const findHashtagIdByLabel = async (hashtag) => {
   try {
     const existingDreams = await AsyncStorage.getItem("dreamFormDataArray");
     let dreamsData = existingDreams ? JSON.parse(existingDreams) : [];
@@ -59,12 +37,8 @@ const findHashtagIdByLabel = async (hashtag: string) => {
   }
 };
 
-export default function EditDream({
-  dreamId,
-  onSave,
-  onCancel,
-}: EditDreamProps) {
-  const [dream, setDream] = useState<Dream | null>(null);
+export default function EditDream({ dreamId, onSave, onCancel }) {
+  const [dream, setDream] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const [dreamText, setDreamText] = useState("");
@@ -78,9 +52,7 @@ export default function EditDream({
   const [showPicker, setShowPicker] = useState(false);
   const [mode, setMode] = useState("date");
   const [emotionState, setEmotionState] = useState("neutre");
-  const [peoples, setPeoples] = useState<Array<{ id: string; name: string }>>(
-    [],
-  );
+  const [peoples, setPeoples] = useState([]);
   const [peopleInput, setPeopleInput] = useState("");
   const [place, setPlace] = useState("");
   const [emotionnalIntensity, setEmotionnalIntensity] = useState(0);
@@ -94,7 +66,7 @@ export default function EditDream({
       try {
         const data = await AsyncStorage.getItem("dreamFormDataArray");
         const dreamsArray = data ? JSON.parse(data) : [];
-        const foundDream = dreamsArray.find((d: Dream) => d.id === dreamId);
+        const foundDream = dreamsArray.find((d) => d.id === dreamId);
 
         if (foundDream) {
           setDream(foundDream);
@@ -141,7 +113,7 @@ export default function EditDream({
     setShowPicker(true);
   };
 
-  const handlePeopleInputChange = (text: string) => {
+  const handlePeopleInputChange = (text) => {
     if (text.includes(",")) {
       const peopleName = text.replace(",", "").trim();
 
@@ -159,11 +131,11 @@ export default function EditDream({
     }
   };
 
-  const handleRemovePerson = (personId: string) => {
+  const handleRemovePerson = (personId) => {
     setPeoples(peoples.filter((person) => person.id !== personId));
   };
 
-  const onChange = (event: any, selectedValue: any) => {
+  const onChange = (event, selectedValue) => {
     if (event.type === "dismissed") {
       setShowPicker(false);
       return;
@@ -188,7 +160,7 @@ export default function EditDream({
       const hashtag3Id = await findHashtagIdByLabel(hashtag3);
 
       // Trouver et mettre à jour le rêve existant
-      const updatedArray = formDataArray.map((d: Dream) =>
+      const updatedArray = formDataArray.map((d) =>
         d.id === dreamId
           ? {
               ...d,

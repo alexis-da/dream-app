@@ -10,6 +10,7 @@ import {
   SegmentedButtons,
   TextInput,
 } from "react-native-paper";
+import { Rating } from "react-native-ratings";
 import uuid from "react-native-uuid";
 
 const { width } = Dimensions.get("window");
@@ -58,7 +59,7 @@ export default function DreamForm() {
   const [emotionnalIntensity, setEmotionnalIntensity] = useState(0);
   const [dreamClarity, setDreamClarity] = useState(0);
   const [sleepQuality, setSleepQuality] = useState(0);
-  const [presonalMeaning, setPresonalMeaning] = useState("");
+  const [personalMeaning, setPersonalMeaning] = useState("");
 
   const showDateTimePicker = () => {
     setMode("date");
@@ -90,7 +91,7 @@ export default function DreamForm() {
     setPeoples(peoples.filter((person) => person.id !== personId));
   };
 
-  const onChange = (event: any, selectedValue) => {
+  const onChange = (event: any, selectedValue: Date) => {
     if (event.type === "dismissed") {
       setShowPicker(false);
       return;
@@ -136,7 +137,7 @@ export default function DreamForm() {
         emotionnalIntensity: emotionnalIntensity,
         dreamClarity: dreamClarity,
         sleepQuality: sleepQuality,
-        presonalMeaning: presonalMeaning,
+        personalMeaning: personalMeaning,
       });
 
       // Sauvegarder le tableau mis à jour dans AsyncStorage
@@ -168,7 +169,7 @@ export default function DreamForm() {
     setEmotionnalIntensity(0);
     setDreamClarity(0);
     setSleepQuality(0);
-    setPresonalMeaning("");
+    setPersonalMeaning("");
   };
 
   const resetDreams = async () => {
@@ -294,64 +295,46 @@ export default function DreamForm() {
       <Divider style={styles.divider} />
 
       <Text style={styles.label}>Intensité émotionnelle</Text>
-      <Picker
-        selectedValue={emotionnalIntensity}
-        onValueChange={(itemValue) => setEmotionnalIntensity(itemValue)}
-      >
-        <Picker.Item label="0" value={0} />
-        <Picker.Item label="1" value={1} />
-        <Picker.Item label="2" value={2} />
-        <Picker.Item label="3" value={3} />
-        <Picker.Item label="4" value={4} />
-        <Picker.Item label="5" value={5} />
-        <Picker.Item label="6" value={6} />
-        <Picker.Item label="7" value={7} />
-        <Picker.Item label="8" value={8} />
-        <Picker.Item label="9" value={9} />
-        <Picker.Item label="10" value={10} />
-      </Picker>
+
+      <Rating
+        type="star"
+        ratingColor="#3498db"
+        ratingBackgroundColor="#c8c7c8"
+        ratingCount={10}
+        startingValue={emotionnalIntensity}
+        onFinishRating={(rating) => setEmotionnalIntensity(rating)}
+      />
 
       <Divider style={styles.divider} />
 
       <Text style={styles.label}>Clarté du rêve</Text>
-      <Picker
-        selectedValue={dreamClarity}
-        onValueChange={(itemValue) => setDreamClarity(itemValue)}
-      >
-        <Picker.Item label="0" value={0} />
-        <Picker.Item label="1" value={1} />
-        <Picker.Item label="2" value={2} />
-        <Picker.Item label="3" value={3} />
-        <Picker.Item label="4" value={4} />
-        <Picker.Item label="5" value={5} />
-        <Picker.Item label="6" value={6} />
-        <Picker.Item label="7" value={7} />
-        <Picker.Item label="8" value={8} />
-        <Picker.Item label="9" value={9} />
-        <Picker.Item label="10" value={10} />
-      </Picker>
+      <Rating
+        type="star"
+        ratingColor="#3498db"
+        ratingBackgroundColor="#c8c7c8"
+        ratingCount={10}
+        startingValue={dreamClarity}
+        onFinishRating={(rating) => setDreamClarity(rating)}
+      />
 
       <Divider style={styles.divider} />
 
       <Text style={styles.label}>Qualité du sommeil</Text>
-      <Picker
-        selectedValue={sleepQuality}
-        onValueChange={(itemValue) => setSleepQuality(itemValue)}
-      >
-        <Picker.Item label="0" value={0} />
-        <Picker.Item label="1" value={1} />
-        <Picker.Item label="2" value={2} />
-        <Picker.Item label="3" value={3} />
-        <Picker.Item label="4" value={4} />
-        <Picker.Item label="5" value={5} />
-      </Picker>
-
+      <Rating
+        type="star"
+        ratingColor="#3498db"
+        ratingBackgroundColor="#c8c7c8"
+        ratingCount={5}
+        startingValue={sleepQuality}
+        onFinishRating={(rating) => setSleepQuality(rating)}
+      />
+  
       <Divider style={styles.divider} />
       <Text style={styles.label}>Signification personnelle</Text>
       <TextInput
         label="Signification personnelle"
-        value={presonalMeaning}
-        onChangeText={(presonalMeaning) => setPresonalMeaning(presonalMeaning)}
+        value={personalMeaning}
+        onChangeText={(personalMeaning) => setPersonalMeaning(personalMeaning)}
         mode="outlined"
         style={[styles.input, { width: width * 0.8, alignSelf: "center" }]}
       />

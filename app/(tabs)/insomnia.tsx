@@ -1,11 +1,11 @@
-import DreamSearch from "@/components/DreamSearch";
+import Insomnia from "@/components/Insomnia";
 import { View } from "@/components/Themed";
 import { StyleSheet } from "react-native";
 
-export default function TabThreeScreen() {
+export default function tabInsomnia() {
   return (
     <View style={styles.container}>
-      <DreamSearch />
+      <Insomnia />
     </View>
   );
 }
@@ -15,6 +15,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "#000",
+  },
+  video: {
+    width: "100%",
+    height: "100%",
   },
   title: {
     fontSize: 20,

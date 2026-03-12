@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useCallback, useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { DeleteDream } from "./DeleteDream";
 import EditDream from "./EditDream";
@@ -25,7 +25,7 @@ export default function DreamList() {
   }, [fetchDreams]);
 
   return (
-    <View>
+    <ScrollView style={styles.container}>
       {editingDreamId ? (
         <EditDream
           dreamId={editingDreamId}
@@ -39,7 +39,7 @@ export default function DreamList() {
         <>
           <Text style={styles.title}>Liste des Rêves :</Text>
           {dreams.map((dream, index) => (
-            <View key={index} style={styles.dreamContainer}>
+            <ScrollView key={index} style={styles.dreamContainer}>
               <Text style={styles.dreamText}>
                 {dream.dreamText} -{" "}
                 {dream.isLucidDream ? "Lucide" : "Non Lucide"} -{" "}
@@ -87,15 +87,18 @@ export default function DreamList() {
                   }
                 />
               </View>
-            </View>
+            </ScrollView>
           ))}
         </>
       )}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   title: {
     fontSize: 18,
     fontWeight: "bold",
