@@ -1,22 +1,22 @@
 export const DreamTheme = {
   colors: {
     // Fonds clairs
-    background: "rgb(255 255 255)", // Blanc lavande
-    surface: "#EDE7FB", // Lavande douce
-    card: "#FFFFFF", // Carte blanche
-    cardBorder: "#C4B5FD", // Bordure lilas
+    background: "rgb(255 255 255)", 
+    surface: "#EDE7FB", 
+    card: "#FFFFFF", 
+    cardBorder: "#C4B5FD", 
 
     // Accents
-    primary: "#7C3AED", // Violet rêve
-    primaryLight: "#EDE9FE", // Lavande très claire (chips)
-    accent: "#6D28D9", // Violet profond
-    gold: "#D97706", // Ambre chaud (titres)
-    pink: "#DB2777", // Rose rêve (labels)
+    primary: "#7C3AED",
+    primaryLight: "#EDE9FE", 
+    accent: "#6D28D9", 
+    gold: "#D97706", 
+    pink: "#DB2777",
 
     // Texte
-    textPrimary: "#1E1B4B", // Encre nuit (lisible sur fond clair)
-    textSecondary: "#5B21B6", // Violet foncé
-    textMuted: "#8B79B5", // Lilas moyen
+    textPrimary: "#1E1B4B", 
+    textSecondary: "#5B21B6",
+    textMuted: "#8B79B5",
 
     // États
     success: "#15803D",

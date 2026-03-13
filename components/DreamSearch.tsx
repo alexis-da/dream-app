@@ -1,10 +1,8 @@
 import { DreamTheme } from "@/constants/DreamTheme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
-import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Button, TextInput } from "react-native-paper";
-
-const { width } = Dimensions.get("window");
 
 export default function DreamSearch() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,6 +24,10 @@ export default function DreamSearch() {
           dream.peoples.some((person) =>
             person.name.toLowerCase().includes(searchLower),
           ) ||
+          // Recherche dans le type de rêve
+          dream.dreamType.toLowerCase().includes(searchLower) ||
+          // Recherche par émotion
+          dream.emotionState.toLowerCase().includes(searchLower) ||
           // Recherche dans le texte du rêve
           dream.dreamText.toLowerCase().includes(searchLower),
       );
@@ -55,8 +57,12 @@ export default function DreamSearch() {
           Rechercher
         </Button>
       </View>
-      <ScrollView style={styles.resultsContainer}>
-        {searchResults.map((dream, index) => (
+      <ScrollView
+        style={styles.resultsContainer}
+        contentContainerStyle={styles.resultsContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {searchResults.map((dream: any, index) => (
           <View key={index} style={styles.resultItem}>
             <Text style={styles.resultText}>{dream.dreamText}</Text>
             <Text style={styles.resultSubText}>
@@ -133,6 +139,10 @@ const styles = StyleSheet.create({
   },
   resultsContainer: {
     width: "100%",
+    flex: 1,
+  },
+  resultsContent: {
+    paddingBottom: DreamTheme.spacing.xl,
   },
   resultItem: {
     borderWidth: 1,

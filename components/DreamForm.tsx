@@ -197,6 +197,8 @@ export default function DreamForm() {
         style={[styles.input, { width: width * 0.8, alignSelf: "center" }]}
       />
 
+      <Text>Coucou</Text>
+
       <Divider style={styles.divider} />
 
       <Text>

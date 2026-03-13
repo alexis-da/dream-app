@@ -19,7 +19,7 @@ export function DeleteDream({
         "dreamFormDataArray",
         JSON.stringify(updatedDreams),
       );
-      onDelete(); // Appeler la fonction de rappel pour rafraîchir la liste des rêves
+      onDelete();
     } catch (error) {
       console.error("Erreur lors de la suppression du rêve:", error);
     } finally {

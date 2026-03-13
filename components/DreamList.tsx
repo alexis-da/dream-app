@@ -1,6 +1,7 @@
 import { DreamTheme } from "@/constants/DreamTheme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useCallback, useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { DeleteDream } from "./DeleteDream";
@@ -10,7 +11,7 @@ export default function DreamList() {
   const [dreams, setDreams] = useState([]);
   const [editingDreamId, setEditingDreamId] = useState<string | null>(null);
 
-  // Ce useEffect est exécuté à l'instanciation du composant pour charger la liste initiale
+  // Ce useCallback est exécuté pour charger la liste des rêves
   const fetchDreams = useCallback(async () => {
     try {
       const data = await AsyncStorage.getItem("dreamFormDataArray");
@@ -22,9 +23,12 @@ export default function DreamList() {
     }
   }, []);
 
-  useEffect(() => {
-    fetchDreams();
-  }, [fetchDreams]);
+  // Se déclenche chaque fois qu'on revient à cet onglet
+  useFocusEffect(
+    useCallback(() => {
+      fetchDreams();
+    }, [fetchDreams]),
+  );
 
   return (
     <ScrollView style={styles.container}>
@@ -45,43 +49,39 @@ export default function DreamList() {
               Aucun rêve enregistré pour le moment.
             </Text>
           ) : (
-            dreams.map((dream, index) => (
-              <ScrollView key={index} style={styles.dreamContainer}>
+            dreams.map((dream) => (
+              <View key={dream.id} style={styles.dreamContainer}>
                 <Text style={styles.dreamText}>
-                  {dream.dreamText} -{" "}
-                  {dream.isLucidDream ? "Lucide" : "Non Lucide"} -{" "}
-                  {dream.dreamType}
-                  <br />
-                  Hashtags:
-                  <br />
-                  {dream.hashtags.map((hashtag, id) => (
-                    <Text key={id}>{hashtag.label},</Text>
-                  ))}
-                  {"\n"}
-                  Date: {dream.dateTime?.date || "N/A"} - Heure:{" "}
-                  {dream.dateTime?.time || "N/A"}
-                  <br />
-                  <Text>Emotion: {dream.emotionState}</Text>
-                  <br />
-                  <Text>
-                    Personne:{" "}
-                    {dream.peoples.map((person) => person.name).join(", ")}
-                  </Text>
-                  <br />
-                  <Text>Lieu: {dream.place}</Text>
-                  <br />
-                  <Text>
-                    Intensité émotionnelle: {dream.emotionnalIntensity}
-                  </Text>
-                  <br />
-                  <Text>Clarté du rêve: {dream.dreamClarity}</Text>
-                  <br />
-                  <Text>Qualité du sommeil: {dream.sleepQuality}</Text>
-                  <br />
-                  <Text>
-                    Signification personnelle: {dream.presonalMeaning}
-                  </Text>
-                  <br />
+                  {dream.dreamText} - {dream.isLucidDream ? "Lucide" : "Non Lucide"} - {dream.dreamType}
+                </Text>
+                
+                <Text style={styles.sectionTitle}>Hashtags:</Text>
+                <Text style={styles.dreamText}>
+                  {dream.hashtags.map((hashtag) => hashtag.label).join(", ")}
+                </Text>
+
+                <Text style={styles.dreamText}>
+                  Date: {dream.dateTime?.date || "N/A"} - Heure: {dream.dateTime?.time || "N/A"}
+                </Text>
+
+                <Text style={styles.dreamText}>Emotion: {dream.emotionState}</Text>
+
+                <Text style={styles.dreamText}>
+                  Personne: {dream.peoples.map((person) => person.name).join(", ")}
+                </Text>
+
+                <Text style={styles.dreamText}>Lieu: {dream.place}</Text>
+
+                <Text style={styles.dreamText}>
+                  Intensité émotionnelle: {dream.emotionnalIntensity}
+                </Text>
+
+                <Text style={styles.dreamText}>Clarté du rêve: {dream.dreamClarity}</Text>
+
+                <Text style={styles.dreamText}>Qualité du sommeil: {dream.sleepQuality}</Text>
+
+                <Text style={styles.dreamText}>
+                  Signification personnelle: {dream.presonalMeaning}
                 </Text>
                 <View style={styles.buttonContainer}>
                   <Button
@@ -98,7 +98,7 @@ export default function DreamList() {
                     }
                   />
                 </View>
-              </ScrollView>
+              </View>
             ))
           )}
         </>
@@ -149,5 +149,12 @@ const styles = StyleSheet.create({
     color: DreamTheme.colors.textMuted,
     fontSize: 15,
     fontStyle: "italic",
+  },
+  sectionTitle: {
+    fontSize: 14,
+    fontWeight: "600",
+    marginTop: DreamTheme.spacing.md,
+    marginBottom: DreamTheme.spacing.sm,
+    color: DreamTheme.colors.gold,
   },
 });
