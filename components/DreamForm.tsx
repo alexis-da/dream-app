@@ -289,7 +289,7 @@ export default function DreamForm() {
       >
         <Picker.Item label="Neutre" value="neutre" />
         <Picker.Item label="Heureux" value="heureux" />
-        <Picker.Item label="Appeuré" value="appeuré" />
+        <Picker.Item label="Apeuré" value="apeuré" />
         <Picker.Item label="Mécontent" value="mécontant" />
       </Picker>
 
@@ -439,5 +439,5 @@ const styles = StyleSheet.create({
   },
   raiting: {
     backgroundColor: DreamTheme.colors.background,
-  }
+  },
 });

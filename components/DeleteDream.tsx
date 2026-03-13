@@ -13,7 +13,7 @@ export function DeleteDream({
       const data = await AsyncStorage.getItem("dreamFormDataArray");
       const dreamFormDataArray = data ? JSON.parse(data) : [];
       const updatedDreams = dreamFormDataArray.filter(
-        (dream: any) => dream.id !== dreamId,
+        (dream) => dream.id !== dreamId,
       );
       await AsyncStorage.setItem(
         "dreamFormDataArray",
