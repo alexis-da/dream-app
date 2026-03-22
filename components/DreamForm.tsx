@@ -1,18 +1,13 @@
 import { DreamTheme } from "@/constants/DreamTheme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import DateTimePicker from "@react-native-community/datetimepicker";
-import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
-import { Dimensions, ScrollView, StyleSheet, Text, View } from "react-native";
-import {
-  Button,
-  Checkbox,
-  Divider,
-  SegmentedButtons,
-  TextInput,
-} from "react-native-paper";
-import { Rating } from "react-native-ratings";
+import { Dimensions, ScrollView, StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
 import uuid from "react-native-uuid";
+import BasicsSection from "./dream-form/BasicsSection.tsx";
+import EmotionSection from "./dream-form/EmotionSection.tsx";
+import HashtagsSection from "./dream-form/HashtagsSection.tsx";
+import PeopleSection from "./dream-form/PeopleSection.tsx";
 
 const { width } = Dimensions.get("window");
 
@@ -187,183 +182,58 @@ export default function DreamForm() {
 
   return (
     <ScrollView style={styles.container}>
-      <TextInput
-        label="Rêve"
-        value={dreamText}
-        onChangeText={(text) => setDreamText(text)}
-        mode="outlined"
-        multiline
-        numberOfLines={6}
-        style={[styles.input, { width: width * 0.8, alignSelf: "center" }]}
+      <BasicsSection
+        styles={styles}
+        width={width}
+        dreamText={dreamText}
+        setDreamText={setDreamText}
+        date={date}
+        time={time}
+        showDateTimePicker={showDateTimePicker}
+        showPicker={showPicker}
+        mode={mode}
+        onChange={onChange}
+        isLucidDream={isLucidDream}
+        setIsLucidDream={setIsLucidDream}
+        dreamType={dreamType}
+        setDreamType={setDreamType}
       />
 
-      <Divider style={styles.divider} />
-
-      <Text>
-        Date : {date.toLocaleDateString()} - Heure : {time.toLocaleTimeString()}
-      </Text>
-
-      <Button mode="outlined" onPress={showDateTimePicker}>
-        Choisir date et heure
-      </Button>
-
-      {showPicker && (
-        <DateTimePicker
-          value={mode === "date" ? date : time}
-          mode={mode}
-          display="default"
-          onChange={onChange}
-        />
-      )}
-
-      <View style={styles.checkboxContainer}>
-        <Checkbox.Item
-          label="Rêve Lucide"
-          status={isLucidDream ? "checked" : "unchecked"}
-          onPress={() => setIsLucidDream(!isLucidDream)}
-        />
-      </View>
-
-      <Divider style={styles.divider} />
-
-      <SegmentedButtons
-        style={{ marginBottom: 16 }}
-        value={dreamType}
-        onValueChange={setDreamType}
-        buttons={[
-          {
-            value: "cauchemar",
-            label: "Cauchemar",
-          },
-          {
-            value: "reve",
-            label: "Rêve",
-          },
-          { value: "neutre", label: "Neutre" },
-        ]}
+      <PeopleSection
+        styles={styles}
+        width={width}
+        peoples={peoples}
+        handleRemovePerson={handleRemovePerson}
+        peopleInput={peopleInput}
+        handlePeopleInputChange={handlePeopleInputChange}
+        place={place}
+        setPlace={setPlace}
       />
 
-      <Divider style={styles.divider} />
-
-      <Text style={styles.label}>Personnes présentes dans le rêve</Text>
-
-      {peoples.length > 0 && (
-        <View style={styles.peopleListContainer}>
-          {peoples.map((person) => (
-            <View key={person.id} style={styles.personTag}>
-              <Text style={styles.personName}>{person.name}</Text>
-              <Button
-                mode="text"
-                onPress={() => handleRemovePerson(person.id)}
-                compact
-                style={styles.removeButton}
-              >
-                ✕
-              </Button>
-            </View>
-          ))}
-        </View>
-      )}
-
-      <TextInput
-        label="Ajouter une personne (tapez une virgule pour confirmer)"
-        value={peopleInput}
-        onChangeText={handlePeopleInputChange}
-        mode="outlined"
-        style={[styles.input, { width: width * 0.8, alignSelf: "center" }]}
+      <EmotionSection
+        styles={styles}
+        width={width}
+        emotionState={emotionState}
+        setEmotionState={setEmotionState}
+        emotionnalIntensity={emotionnalIntensity}
+        setEmotionnalIntensity={setEmotionnalIntensity}
+        dreamClarity={dreamClarity}
+        setDreamClarity={setDreamClarity}
+        sleepQuality={sleepQuality}
+        setSleepQuality={setSleepQuality}
+        personalMeaning={personalMeaning}
+        setPersonalMeaning={setPersonalMeaning}
       />
 
-      <Text style={styles.label}>Lieu du rêve</Text>
-      <TextInput
-        label="Lieu"
-        value={place}
-        onChangeText={(place) => setPlace(place)}
-        mode="outlined"
-        style={[styles.input, { width: width * 0.8, alignSelf: "center" }]}
-      />
-
-      <Text style={styles.label}>État émotionnel</Text>
-      <Picker
-        selectedValue={emotionState}
-        onValueChange={(itemValue) => setEmotionState(itemValue)}
-      >
-        <Picker.Item label="Neutre" value="neutre" />
-        <Picker.Item label="Heureux" value="heureux" />
-        <Picker.Item label="Apeuré" value="apeuré" />
-        <Picker.Item label="Mécontent" value="mécontant" />
-      </Picker>
-
-      <Divider style={styles.divider} />
-
-      <Text style={styles.label}>Intensité émotionnelle</Text>
-
-      <Rating
-        type="star"
-        ratingColor="#3498db"
-        ratingBackgroundColor="#c8c7c8"
-        ratingCount={5}
-        startingValue={emotionnalIntensity}
-        onFinishRating={(rating) => setEmotionnalIntensity(rating)}
-      />
-
-      <Divider style={styles.divider} />
-
-      <Text style={styles.label}>Clarté du rêve</Text>
-      <Rating
-        type="star"
-        ratingColor="#3498db"
-        ratingBackgroundColor="#c8c7c8"
-        ratingCount={5}
-        startingValue={dreamClarity}
-        onFinishRating={(rating) => setDreamClarity(rating)}
-      />
-
-      <Divider style={styles.divider} />
-
-      <Text style={styles.label}>Qualité du sommeil</Text>
-      <Rating
-        type="star"
-        ratingColor="#3498db"
-        ratingBackgroundColor="#c8c7c8"
-        ratingCount={5}
-        startingValue={sleepQuality}
-        onFinishRating={(rating) => setSleepQuality(rating)}
-      />
-
-      <Divider style={styles.divider} />
-      <Text style={styles.label}>Signification personnelle</Text>
-      <TextInput
-        label="Signification personnelle"
-        value={personalMeaning}
-        onChangeText={(personalMeaning) => setPersonalMeaning(personalMeaning)}
-        mode="outlined"
-        style={[styles.input, { width: width * 0.8, alignSelf: "center" }]}
-      />
-
-      <Divider style={styles.divider} />
-
-      <TextInput
-        label="Hashtag 1"
-        value={hashtag1}
-        onChangeText={(hashtag1) => setHashtag1(hashtag1)}
-        mode="outlined"
-        style={[styles.input, { width: width * 0.8, alignSelf: "center" }]}
-      />
-
-      <TextInput
-        label="Hashtag 2"
-        value={hashtag2}
-        onChangeText={(hashtag2) => setHashtag2(hashtag2)}
-        mode="outlined"
-        style={[styles.input, { width: width * 0.8, alignSelf: "center" }]}
-      />
-
-      <TextInput
-        label="Hashtag 3"
-        value={hashtag3}
-        onChangeText={(hashtag3) => setHashtag3(hashtag3)}
-        mode="outlined"
-        style={[styles.input, { width: width * 0.8, alignSelf: "center" }]}
+      <HashtagsSection
+        styles={styles}
+        width={width}
+        hashtag1={hashtag1}
+        setHashtag1={setHashtag1}
+        hashtag2={hashtag2}
+        setHashtag2={setHashtag2}
+        hashtag3={hashtag3}
+        setHashtag3={setHashtag3}
       />
 
       <Button
